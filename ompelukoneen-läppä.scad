@@ -56,7 +56,7 @@ translate([-w/2 + notch_container_depth/2,0, h]) {
         roundedcube([notch_container_depth, notch_container_width,notch_container_height], true,  0.001, "");
         // Shape to subtract from the main cube
         translate([-notch_container_depth / 2, -1 * ((notch_container_width + notch_w)/ 2)/2, notch_height / 3]) {
-            cube([notch_depth, notch_w + 1, notch_h]);  
+            cube([notch_depth, notch_w + 1, notch_height]);
         }
     }
 }
