@@ -17,12 +17,12 @@ knob_roundess = 0.75;
 knob_hole_max_d = 2; // knob_w - knob_protrude ei saisi olla enempää
 knob_protrude = knob_w - knob_hole_max_d;
 
-notch_w = 5.4; // kuinka iso kiinnikeliparen koko on
+notch_w = 10.4; // kuinka iso kiinnikeliparen koko on
 notch_depth = 1;
 notch_height = 1;
 notch_container_height = 4;
 notch_container_depth = 2;
-notch_container_wall_width = 4;
+notch_container_wall_width = 2;
 notch_container_width = notch_w + notch_container_wall_width * 2;
 
 roundedcube([ w, d, h ], true, 1, "z");
@@ -47,10 +47,10 @@ translate([ -w / 2 + notch_container_depth / 2, 0, h ])
         roundedcube([ notch_container_depth, notch_container_width, notch_container_height ], true, 0.00001, "");
         // Shape to subtract from the main cube
         translate([
-            -0.001 - notch_container_depth / 2, -0.5 - notch_container_width / 2 + notch_container_wall_width / 2, -0.5
+            -0.001 - notch_container_depth / 2, -1 * (notch_w) / 2, -0.5
         ])
         {
-            cube([ notch_depth, notch_w * 2, notch_height ]);
+            cube([ notch_depth, notch_w, notch_height ]);
         }
     }
 }
