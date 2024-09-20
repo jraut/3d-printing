@@ -1,5 +1,8 @@
 use <lib/roundedcube.scad>
 
+// # makes the object solid, useful when doing difference
+//  Then there are !, and others
+
 w = 43;
 h = 1.6;
 d = 27;
@@ -15,30 +18,13 @@ knob_hole_max_d = 2; // knob_w - knob_protrude ei saisi olla enempää
 knob_protrude = knob_w - knob_hole_max_d;
 
 notch_w = 5.4; // kuinka iso kiinnikeliparen koko on
-notch_d_from_wall = 11.75; // Kuinka iso matka kiinnitylipareesta on seinään
-notch_depth = 0.5;
-notch_distance_from_surface = 0.5;
-notch_height = 0.5;
+notch_depth = 1;
+notch_height = 1;
 notch_container_height = 4;
 notch_container_depth = 2;
-notch_container_width = notch_w + 0.2 + 2;
+notch_container_wall_width = 4;
+notch_container_width = notch_w + notch_container_wall_width * 2;
 
-// wt eli seinän paksuus 
-module kalikka(x,y,z,wt) { 
-    difference() {
-    group() {
-            color("blue") {
-                roundedcube([x+wt+wt,y+wt+wt,z+wt], true, , "xy");
-                }
-        }
-        translate([0,0,wt]) { 
-            color("red") {
-                #roundedcube([x,y,z],radius=0.1, center=true);
-            }
-        }
-    }
-}
-// kalikka(x=12.7, y=6.7, z=2.3, wt=0.6);
 roundedcube([w, d, h], true, 1, "z");
 translate([w /2 - knob_w / 2 + knob_protrude, 1.4, h / 2 + knob_h / 2]) {
     translate([0, knob_distance_from_center, 0]) {
@@ -53,10 +39,10 @@ translate([w /2 - knob_w / 2 + knob_protrude, 1.4, h / 2 + knob_h / 2]) {
 translate([-w/2 + notch_container_depth/2,0, h]) {
 // Main cube with a part removed
     difference() {
-        roundedcube([notch_container_depth, notch_container_width,notch_container_height], true,  0.001, "");
+        roundedcube([notch_container_depth, notch_container_width, notch_container_height], true,  0.00001, "");
         // Shape to subtract from the main cube
-        translate([-notch_container_depth / 2, -1 * ((notch_container_width + notch_w)/ 2)/2, notch_height / 3]) {
-            cube([notch_depth, notch_w + 1, notch_height]);
+        translate([-0.001 -notch_container_depth / 2, -0.5-notch_container_width/2 + notch_container_wall_width / 2, 0]) {
+           cube([notch_depth, notch_w * 2, notch_height]);
         }
     }
 }
