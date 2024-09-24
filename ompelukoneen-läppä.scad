@@ -4,7 +4,7 @@ use <lib/roundedcube.scad>
 //  Then there are !, and others
 
 w = 42;
-h = 1.6;
+h = 2; // Korjaa korkeussäätö,  tee rounded cube
 d = 27.5;
 
 knob_depth = 5;
@@ -12,21 +12,22 @@ knob_offset = 11.05 - knob_depth;
 
 knob_w = 4;
 knob_distance_from_center = 2 + knob_depth / 2;
-knob_h = 1.5;
+knob_h = 1.6;
 knob_roundess = 0.75;
 knob_hole_max_d = 2; // knob_w - knob_protrude ei saisi olla enempää
 knob_protrude = knob_w - knob_hole_max_d;
 
 notch_w = 10.4; // kuinka iso kiinnikeliparen koko on
-notch_depth = 1;
+notch_depth = 2;
 notch_height = 1;
-notch_container_height = 4;
-notch_container_depth = 2;
+
+notch_container_height = 1.9;
+notch_container_depth = 5;
 notch_container_wall_width = 2;
 notch_container_width = notch_w + notch_container_wall_width * 2;
 
 roundedcube([ w, d, h ], true, 1, "z");
-translate([ w / 2 - knob_w / 2 + knob_protrude, 1.4, h / 2 + knob_h / 2 ])
+translate([ w / 2 - knob_w / 2 + knob_protrude, 1.4, h - 0.2 ])
 {
     translate([ 0, knob_distance_from_center, 0 ])
     {
@@ -39,18 +40,20 @@ translate([ w / 2 - knob_w / 2 + knob_protrude, 1.4, h / 2 + knob_h / 2 ])
 }
 
 // knob
-translate([ -w / 2 + notch_container_depth / 2, 0, h ])
+translate([ -w / 2 + notch_container_depth / 2 + 0.15, 0, h / 1.4 ])
+
 {
-    // Main cube with a part removed
-    difference()
+    rotate([ 0, 10, 0 ])
     {
-        roundedcube([ notch_container_depth, notch_container_width, notch_container_height ], true, 0.00001, "");
-        // Shape to subtract from the main cube
-        translate([
-            -0.001 - notch_container_depth / 2, -1 * (notch_w) / 2, -0.5
-        ])
+        // Main cube with a part removed
+        difference()
         {
-            cube([ notch_depth, notch_w, notch_height ]);
+            roundedcube([ notch_container_depth, notch_container_width, notch_container_height ], true, 0.00001, "");
+            // Shape to subtract from the main cube
+            translate([ -0.001 - notch_container_depth / 2, -1 * (notch_w) / 2, -notch_height + 0.1 ])
+            {
+                cube([ notch_depth, notch_w, notch_height ]);
+            }
         }
     }
 }
